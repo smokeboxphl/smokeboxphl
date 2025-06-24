@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmokeBoxPHL</title>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 50px;
+    }
+    form {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: 20px auto;
+    }
+    input,
+    textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 SmokeBoxPHL Contact Form</h1>
+
+  <form id="contactForm">
+    <input id="name" type="text" placeholder="Your Name" required />
+    <input id="email" type="email" placeholder="Your Email" required />
+    <textarea id="message" placeholder="Your Message" required></textarea>
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    // Firebase v9 compatibility (namespaced)
+    const firebaseConfig = {
+      apiKey: "819031608166",
+      authDomain: "smokeboxphl.firebaseapp.com",
+      projectId: "smokeboxphl",
+      storageBucket: "smokeboxphl.appspot.com",
+      messagingSenderId: "819031608166",
+      appId: "1:819031608166:web:a4c082f87425a2e69b96a7",
+      measurementId: "G-CMLNTZYKHY"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    document.getElementById("contactForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message").value;
+
+      try {
+        await db.collection("contacts").add({
+          name,
+          email,
+          message,
+          created: new Date(),
+        });
+
+        alert("✅ Message sent!");
+        document.getElementById("contactForm").reset();
+      } catch (err) {
+        console.error("❌ Error:", err);
+        alert("❌ Failed to send. Try again.");
+      }
+    });
+  </script>
+</body>
+</html>
